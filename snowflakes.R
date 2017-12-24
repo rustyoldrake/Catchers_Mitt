@@ -87,3 +87,30 @@ returnedSeeds = snowflakes(xCoor = xCoor, yCoor = yCoor, radius = radius,
 
 
 
+# https://cran.r-project.org/web/packages/snowflakes/vignettes/snowflakes.html
+
+fancySnowflakes = function(xCoor, yCoor, radius, seeds, orientation = pi/6){
+  colorCoord = as.hexmode(col2rgb("blue"))
+  transpBlue =paste("#", paste(colorCoord, collapse=""), "44", sep="")
+  colorCoord = as.hexmode(col2rgb("white"))
+  transpWhite =paste("#", paste(colorCoord, collapse=""), "66", sep="")
+  for (i in 1:length(xCoor)){
+    snowflakes(xCoor = xCoor[i], yCoor = yCoor[i], radius = radius, color = transpBlue, anotherColor = "#33333333", seeds = seeds[i])
+    snowflakes(xCoor = xCoor[i], yCoor = yCoor[i], radius = radius, color = transpWhite, anotherColor = transpWhite, seeds = seeds[i])
+  }
+}
+
+
+numSnowflPerRow = 5
+set.seed(2018)
+selectSeeds = sample(1:100000, numSnowflPerRow^2)
+xCoor = rep(1:numSnowflPerRow, numSnowflPerRow)
+yCoor = rep(1:numSnowflPerRow, each = numSnowflPerRow)
+radius = .4
+par(mar = c(0, 0, 0, 0))
+plot(range(xCoor)+c(-1, 1)*.5, range(yCoor)+c(-1, 1)*.5, type="n", axes = FALSE, ylab="", xlab="")
+selectSeeds = c(90068, 46258, 41165, 66142, 4636, 37906, 17295, 9250, 30595, 74555, 12669, 62970, 96997, 43447, 81975, 23841, 73197, 8419, 14318, 83885, 29343, 47445, 66721, 29854, 77912)
+fancySnowflakes(xCoor = xCoor, yCoor = yCoor, radius = radius, seeds = selectSeeds)
+text(xCoor, yCoor, selectSeeds, cex=.5, pos = 3)
+
+
